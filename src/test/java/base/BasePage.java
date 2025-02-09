@@ -13,7 +13,7 @@ import utils.Log;
 public abstract class BasePage {
     protected WebDriver driver;
     protected WebDriverWait wait;
-    protected Logger logger;
+    protected final Logger logger = Log.getLogger(getClass());
     protected ConfigReader configReader;
 
     /**
@@ -26,8 +26,6 @@ public abstract class BasePage {
         this.driver = driver;
         // Define an explicit wait with a default timeout (adjust as needed)
         this.wait = new WebDriverWait(driver, Duration.ofSeconds(10));
-        // Initialize logger (using SLF4J)
-        this.logger = Log.getLogger(this.getClass());
         configReader = new ConfigReader();
         // Initialize web elements annotated with @FindBy in child classes
         PageFactory.initElements(driver, this);
@@ -72,7 +70,7 @@ public abstract class BasePage {
         waitForVisibility(element);
         element.clear();
         element.sendKeys(text);
-        logger.info("Sent keys to element: " + element + " text: " + text);
+        logger.info("Sent keys to element: {} text: {}", element, text);
     }
 
     /**
